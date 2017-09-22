@@ -2,13 +2,18 @@ require 'rltk/parser'
 
 module NLPTrainer
   class Parser < RLTK::Parser
-    IntentList = Struct.new(:intents)
     Intent = Struct.new(:name, :examples)
     Example = Struct.new(:text, :entity)
     Entity = Struct.new(:entity, :value)
 
-    production(:e) do
-      clause("INTENT IDENT NEWLINE example_list NEWLINE NEWLINE") { |_, name, _, examples, _, _| Intent.new(name, examples) }
+    production(:intents) do
+      clause("intent") { |int| [int] }
+      clause("intent intents") { |int, ints| ints << int }
+    end
+
+    production(:intent) do
+      clause("INTENT IDENT NEWLINE example_list END") { |_, name, _, examples, _| Intent.new(name, examples) }
+      clause("INTENT IDENT NEWLINE example_list NEWLINE") { |_, name, _, examples, _| Intent.new(name, examples) }
     end
 
     production(:example_list) do

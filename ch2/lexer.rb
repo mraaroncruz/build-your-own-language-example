@@ -9,9 +9,10 @@ module NLPTrainer
     rule(/intent/) { :INTENT }
 
     # Operators and delimiters.
-    rule(/\/\//) { :SEP }
-    rule(/=/)    { :EQUALS }
-    rule(/\n/)   { :NEWLINE }
+    rule(/\/\//)  { :SEP }
+    rule(/=/)     { :EQUALS }
+    rule(/\n\n+/) { :END }
+    rule(/\n/)    { :NEWLINE }
 
     # Identifier rule.
     rule(/[\w']+/) { |t| [:IDENT, t] }
