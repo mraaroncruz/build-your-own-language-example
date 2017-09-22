@@ -1,5 +1,6 @@
-require "./ch2/lexer"
-require "./ch2/parser"
+#require "./ch2/lexer"
+#require "./ch2/parser"
+require "./ch3/interpreter"
 
 text = <<-STR
 intent restaurant_search
@@ -16,7 +17,11 @@ yo
 
 STR
 
-lexed = NLPTrainer::Lexer.lex(text)
+#lexed = NLPTrainer::Lexer.lex(text)
+#
+#parsed = NLPTrainer::Parser.parse(lexed)
 
-require 'pry'
-binding.pry
+
+ii = NLPTrainer::Rasa::Interpreter.new(text)
+
+puts ii.print()
